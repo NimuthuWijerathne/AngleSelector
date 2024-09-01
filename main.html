@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angle Selector</title>
+    <style>
+        .container {
+            width: 300px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .radio-group {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="number" id="angleInput" value="0" min="0" max="360" style="width: 100px;">
+        <input type="range" id="angleSlider" min="0" max="360" value="180" style="width: 100%;">
+
+        <div class="radio-group">
+            <label><input type="radio" name="angleRadio" value="0"> 0</label>
+            <label><input type="radio" name="angleRadio" value="45"> 45</label>
+            <label><input type="radio" name="angleRadio" value="60"> 60</label>
+            <label><input type="radio" name="angleRadio" value="90"> 90</label>
+            <label><input type="radio" name="angleRadio" value="180"> 180</label>
+        </div>
+    </div>
+
+    <script>
+        const angleInput = document.getElementById('angleInput');
+        const angleSlider = document.getElementById('angleSlider');
+        const radioButtons = document.querySelectorAll('input[name="angleRadio"]');
+
+        function updateAngle(value) {
+            let angle = Math.min(Math.max(parseInt(value), 0), 360);
+            angleInput.value = angle;
+            angleSlider.value = angle;
+
+            radioButtons.forEach(rb => {
+                rb.checked = parseInt(rb.value) === angle;
+            });
+        }
+
+        angleInput.addEventListener('input', () => {
+            updateAngle(angleInput.value);
+        });
+
+        angleSlider.addEventListener('input', () => {
+            updateAngle(angleSlider.value);
+        });
+
+        radioButtons.forEach(rb => {
+            rb.addEventListener('change', () => {
+                if (rb.checked) {
+                    updateAngle(rb.value);
+                }
+            });
+        });
+
+        // Initialize to 0
+        updateAngle(0);
+    </script>
+</body>
+</html>
